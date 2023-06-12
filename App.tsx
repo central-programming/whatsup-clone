@@ -1,9 +1,11 @@
+import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
+import Router from './router';
 
 SplashScreen.preventAutoHideAsync()
 
@@ -44,10 +46,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider style={styles.container}>
-      <SafeAreaView>
-      <Text style={styles.label}>Hello world</Text>
-      <StatusBar style="auto" />
-      </SafeAreaView>
+      <Router />
     </SafeAreaProvider>
   );
 }
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  label : {
+  label: {
     fontFamily: 'regular',
     fontSize: 16,
     color: '#000',
