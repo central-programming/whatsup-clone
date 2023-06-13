@@ -70,7 +70,6 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.primary,
         borderRadius: 50,
         width: 40,
-        // height: 40,
     },
 
 });
