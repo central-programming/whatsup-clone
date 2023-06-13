@@ -56,6 +56,22 @@ export const styles = StyleSheet.create({
     colorAlert:{
         color: colors.primary
     },
+    colorWhite:{
+        color: colors.white
+    },
+    chatFooterInactiveButton: {
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.transparent
+    },
+    chatFooterActiveButton: {
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.primary,
+        borderRadius: 50,
+        width: 40,
+        // height: 40,
+    },
 
 });
 
