@@ -1,7 +1,7 @@
 import { Feather, Ionicons } from "@expo/vector-icons"
 import { View, TouchableOpacity, TextInput } from "react-native"
 import { styles } from "../styles"
-import { ChatUI } from "../utils/chatUI";
+import { ChatUI } from "../utils";
 
 interface ChatFooterProps {
     message: string;

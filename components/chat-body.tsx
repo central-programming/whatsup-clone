@@ -3,7 +3,7 @@ import React from 'react'
 import { TouchableWithoutFeedback, ImageBackground } from 'react-native'
 import { styles } from "../styles";
 import { Asset } from 'expo-asset';
-import { ChatUI } from "../utils/chatUI";
+import { ChatUI } from "../utils";
 const bg = Asset.fromModule(require('../assets/images/chat-bg.png')).uri;
 
 interface ChatBodyProps {

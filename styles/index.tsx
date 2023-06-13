@@ -13,11 +13,39 @@ const colors = {
     white: '#fff',
     black: '#000',
     transparent: 'transparent',
+    success: '#2ecc71',
 };
 
 export const styles = StyleSheet.create({
     flex1: {
         flex: 1,
+    },
+    bgAlert: {
+        backgroundColor: colors.alert,
+    },
+    bgWhite: {
+        backgroundColor: colors.white,
+    },
+    bgTransparent: {
+        backgroundColor: colors.transparent,
+    },
+    bgPrimary: {
+        backgroundColor: colors.primary,
+    },
+    bgSecondary: {
+        backgroundColor: colors.secondary,
+    },
+    bgWarning: {
+        backgroundColor: colors.warning,
+    },
+    bgLight: {
+        backgroundColor: colors.light,
+    },
+    bgDark: {
+        backgroundColor: colors.dark,
+    },
+    bgSuccess: {
+        backgroundColor: colors.success,
     },
     row: {
         flexDirection: "row",
@@ -33,6 +61,12 @@ export const styles = StyleSheet.create({
     },
     yCenter: {
         alignItems: "center"
+    },
+    horizontalMargin: {
+        marginHorizontal: 15,
+    },
+    verticalMargin: {
+        marginVertical: 15,
     },
     label: {
         fontFamily: 'regular',
@@ -70,6 +104,38 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.primary,
         borderRadius: 50,
         width: 40,
+    },
+    input: {
+        flexDirection: "row",
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: colors.gray,
+        marginVertical: 5,
+    },
+    inputLabel:{
+        backgroundColor: colors.gray,
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        borderTopLeftRadius: 5,
+        borderBottomStartRadius: 5,
+    },
+    inputText:{
+        flex: 1,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+    },
+    submitButton: {
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 5,
+        paddingVertical: 10,
+        marginVertical: 5,
+        marginTop: 20,
+    },
+    submitButtonLabel: {
+        // color: colors.white,
+        fontSize: 16,
+        fontFamily: 'bold',
     },
 
 });
