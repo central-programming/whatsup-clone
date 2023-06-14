@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useCallback } from "react";
 import ChatBody from "../components/chat-body";
 import ChatFooter from "../components/chat-footer";
-import { ChatUI } from "../utils/chatUI";
+import { ChatUI } from "../utils";
 const bg = Asset.fromModule(require('../assets/images/chat-bg.png')).uri;
 
 export default function ChatScreen({ navigation }: ChatScreenProps) {
