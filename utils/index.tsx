@@ -1,6 +1,7 @@
 import { Entypo, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { KeyboardStatic } from "react-native";
 import { styles } from "../styles";
+import { Form } from "../types/form";
 
 
 export class ChatUI {
@@ -43,7 +44,10 @@ export function selectedIcon (icon: string,color: string) {
     }
 }
 
-export const getBackgroundColorStyle = (backgroundColor: 'bgAlert' | 'bgPrimary' | 'bgSecondary' | 'bgSuccess' | 'bgWarning' | 'bgDark' | 'bgLight') => {
+export const getBackgroundColorStyle = (backgroundColor: 'bgAlert' | 'bgPrimary' | 'bgSecondary' | 'bgSuccess' | 'bgWarning' | 'bgDark' | 'bgLight',disabled = false) => {
+    if (disabled) {
+        return styles.bgDisabled;
+    }
     switch (backgroundColor) {
         case 'bgAlert':
             return styles.bgAlert;
@@ -62,4 +66,46 @@ export const getBackgroundColorStyle = (backgroundColor: 'bgAlert' | 'bgPrimary'
         default:
             return styles.bgPrimary;
     }
+}
+
+export class AuthUI {
+    formState: string;
+    form: Form;
+    setFormState: (value: React.SetStateAction<string>) => void
+    setKeyboardShown: (value: React.SetStateAction<boolean>) => void
+    setForm: (value: React.SetStateAction<Form>) => void;
+    constructor(formState: string, form: { firstName: string; lastName: string; email: string; password: string; }, setFormState: (value: React.SetStateAction<string>) => void, setKeyboardShown: (value: React.SetStateAction<boolean>) => void, setForm: (value: React.SetStateAction<Form>) => void) {
+        this.formState = formState;
+        this.form = form;
+        this.setFormState = setFormState;
+        this.setKeyboardShown = setKeyboardShown;
+        this.setForm = setForm;
+    }
+
+    toggleFormState = () => {
+        this.setFormState((prevFormState) => prevFormState === 'login' ? 'register' : 'login')
+    }
+
+    isFormFilled = () => {
+        if (this.formState === 'login') {
+            return this.form.email !== '' && this.form.password !== ''
+        } else {
+            return this.form.firstName !== '' && this.form.lastName !== '' && this.form.email !== '' && this.form.password !== ''
+        }
+    }
+
+    handleOnChangeText = (key: string, value: string) => {
+        this.setForm((prevForm) => ({ ...prevForm, [key]: value }))
+    }
+
+
+
+    handleKeyboardDidShow = () => {
+        this.setKeyboardShown(true);
+    }
+
+    handleKeyboardDidHide = () => {
+        this.setKeyboardShown(false);
+    }
+
 }

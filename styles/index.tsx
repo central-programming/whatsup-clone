@@ -20,6 +20,9 @@ export const styles = StyleSheet.create({
     flex1: {
         flex: 1,
     },
+    flexGrow1: {
+        flexGrow: 1,
+    },
     bgAlert: {
         backgroundColor: colors.alert,
     },
@@ -44,6 +47,9 @@ export const styles = StyleSheet.create({
     bgDark: {
         backgroundColor: colors.dark,
     },
+    bgDisabled: {
+        backgroundColor: colors.gray,
+    },
     bgSuccess: {
         backgroundColor: colors.success,
     },
@@ -58,6 +64,9 @@ export const styles = StyleSheet.create({
     },
     xCenter: {
         justifyContent: "center",
+    },
+    xEnd: {
+        justifyContent: "flex-end",
     },
     yCenter: {
         alignItems: "center"
@@ -133,9 +142,23 @@ export const styles = StyleSheet.create({
         marginTop: 20,
     },
     submitButtonLabel: {
-        // color: colors.white,
+        color: colors.dark,
         fontSize: 16,
         fontFamily: 'bold',
+    },
+    logoContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.primary,
+        borderRadius: 10,
+        padding: 10,
+        height: 150,
+        flexGrow: 1,
+    },
+    logo: {
+        width: '100%',
+        height: '100%',
+        resizeMode: 'contain',
     },
 
 });
