@@ -1,11 +1,11 @@
 import React from "react";
-import { Button, KeyboardAvoidingView, Platform, View, Image } from "react-native";
+import { Button, KeyboardAvoidingView, Platform, View, Image, Text, ActivityIndicator } from "react-native";
 import { styles } from "../styles";
 import { Input } from "./input";
 import SubmitButton from "./submit-button";
 import { Asset } from "expo-asset";
 import { Form } from "../types/form";
-import { AuthUI } from "../utils";
+import { AuthUI, ChatUI } from "../utils";
 const logo = Asset.fromModule(require('../assets/images/logo.png')).uri;
 
 
@@ -30,7 +30,19 @@ export default function AuthForm({ keyboardShown, formState, form, authUI }: Aut
             )}
             <Input inputMode="email" icon="email" color="white" placeholder="Email" value={form.email} onChangeText={(value) => authUI.handleOnChangeText('email', value)} />
             <Input icon="password" color="white" placeholder="Password" secureTextEntry={true} value={form.password} onChangeText={(value) => authUI.handleOnChangeText('password', value)} />
-            <SubmitButton label={formState === 'login' ? 'Login' : 'Register'} onPress={() => { console.log('hello') }} backgroundColor="bgPrimary" disabled={!authUI.isFormFilled()} />
+            <View style={[styles.xCenter,styles.row]}>
+                <Text style={[styles.textAlert]} >{form.errorMessage}</Text>
+            </View>
+            <>
+            {
+                authUI.loading ? (
+                    <ActivityIndicator size='small' color='blue'  />
+                ) : (
+                    <SubmitButton label={formState === 'login' ? 'Login' : 'Register'} onPress={() => {authUI.handleOnSubmit() }} backgroundColor="bgPrimary" disabled={!authUI.isFormFilled()} />
+                )
+                    
+            }
+            </>
             <View style={[styles.row, styles.xEnd, styles.verticalMargin]}>
                 <Button title={formState === 'login' ? 'Register' : 'Login'} onPress={authUI.toggleFormState} />
             </View>

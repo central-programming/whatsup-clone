@@ -6,11 +6,15 @@ import { AuthUI } from "../utils";
 import AuthForm from "../components/auth-form";
 
 
+
+
+
 export default function AuthScreen() {
     const [keyboardShown, setKeyboardShown] = useState(false);
     const [formState, setFormState] = useState('login');
-    const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '' });
-    const authUI = new AuthUI(formState, form, setFormState, setKeyboardShown, setForm);
+    const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', errorMessage: '' });
+    const [isLoading, setIsLoading] = useState(false);
+    const authUI = new AuthUI(formState, form, setFormState, setKeyboardShown, setForm, isLoading, setIsLoading);
 
     useKeyboardEventListeners(authUI.handleKeyboardDidShow, authUI.handleKeyboardDidHide);
 
