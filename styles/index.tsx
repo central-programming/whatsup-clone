@@ -53,6 +53,9 @@ export const styles = StyleSheet.create({
     bgSuccess: {
         backgroundColor: colors.success,
     },
+    textAlert: {
+        color: colors.alert,
+    },
     row: {
         flexDirection: "row",
     },

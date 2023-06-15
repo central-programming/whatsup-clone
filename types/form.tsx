@@ -3,4 +3,5 @@ export interface Form {
     lastName: string;
     email: string;
     password: string;
+    errorMessage: string;
 };

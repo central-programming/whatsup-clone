@@ -20,7 +20,15 @@ export function Input({ icon, color, placeholder, secureTextEntry = false, value
             <Text style={styles.inputLabel}>
                 {selectedIcon(icon, color)}
             </Text>
-            <TextInput inputMode={inputMode} value={value} onChangeText={onChangeText} style={styles.inputText} placeholder={placeholder} secureTextEntry={secureTextEntry} />
+            <TextInput 
+                inputMode={inputMode} 
+                value={value} 
+                onChangeText={onChangeText} 
+                style={styles.inputText} 
+                placeholder={placeholder} 
+                secureTextEntry={secureTextEntry}
+                autoCapitalize={inputMode === 'email' ? 'none' : 'sentences'}
+            />
         </View>
     )
 }
