@@ -4,7 +4,7 @@ import { styles } from "../styles";
 import { Form } from "../types/form";
 import firebaseApp from "./firebase-config";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, ref, set, child } from "firebase/database";
+import { getDatabase, ref, set, child, get } from "firebase/database";
 
 export class ChatUI {
     Keyboard: KeyboardStatic;
@@ -115,8 +115,10 @@ export class AuthUI {
         const auth = getAuth(app);
         try {
             this.toggleLoading();
-            const result = await signInWithEmailAndPassword(auth, email, password);
-            console.log('result', result);
+            const {
+                user: { uid }
+            } = await signInWithEmailAndPassword(auth, email, password);
+            this.getUserData(uid);
         } catch (error: any) {
             this.toggleLoading();
             const errorMessage = this.extractErrorDetails(error.message);
@@ -132,7 +134,7 @@ export class AuthUI {
             const result = await createUserWithEmailAndPassword(auth, email, password);
             const { uid } = result.user;
             const user = await this.createUserData(uid, firstName, lastName, email);
-            console.log('user', user);
+            console.log( user);
         } catch (error: any) {
             this.toggleLoading();
             console.log(error.code);
@@ -180,5 +182,18 @@ export class AuthUI {
     toggleLoading = () => {
         this.setIsLoading((prevIsLoading) => !prevIsLoading);
     }
+
+    getUserData = async (uid: string) => {
+        const dbRef = ref(getDatabase());
+        const userSnapshot = await get(child(dbRef, `users/${uid}`));
+        if (userSnapshot.exists()) {
+            console.log('X',userSnapshot.val());
+            
+            // return userSnapshot.val();
+        } else {
+            throw new Error('User data not found');
+        }
+    };
+    
 
 }
