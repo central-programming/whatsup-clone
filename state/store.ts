@@ -51,16 +51,26 @@ const actionModel: ActionsModel = {
 
     login: thunk(async (actions, payload) => {
         const { email, password } = payload;
+        actions.toggleLoading();
         try {
-            const result = await firebaseUtils.signInWithEmailAndPassword(email, password);
-            const { uid } = result.user;
-            const user = await firebaseUtils.getUserData(uid);
-            if (user) {
-                actions.setUser(user);
+            const result = await firebaseUtils.signInWithEmailAndPassword(email, password);  
+            const { uid,stsTokenManager } = result.user;
+            const { accessToken, expirationTime } = stsTokenManager;
+            const expiryDate = new Date(expirationTime * 1000);
+            const userData = await firebaseUtils.getUserData(uid);
+            if (userData) {
+                actions.setAuth({ token: accessToken, user: userData });
+                const data = { accessToken, uid, expiryDate };
+                await AsyncStorageHandler.set('userAuthData', data);
+                actions.toggleLoading();
             }
 
-        } catch (error: any) {
-            console.log(error.code);
+        } catch (error: unknown) {
+            if (error instanceof FirebaseError) {
+                const errorMessage = extractErrorDetails(error.message);
+                actions.updateErrorMessage(errorMessage);
+            }
+            actions.toggleLoading();
         }
     }
     ),
