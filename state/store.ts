@@ -3,25 +3,25 @@ import firebaseUtils from '../utils/firebase-utils';
 import { FirebaseError } from '@firebase/util';
 import { extractErrorDetails } from '../utils/strings';
 import { StoreModel, StateModel, ActionsModel } from '../types/store-model';
-import localStorage from '../utils/local-storage';
+import { AsyncStorageHandler } from '../utils/local-storage';
 
-
+const authOriginalState = {
+    token: '',
+    user: {
+        firstName: '',
+        lastName: '',
+        fullName: '',
+        email: '',
+        uid: '',
+        createdAt: '',
+    }
+};
 const stateModel: StateModel = {
     isLoading: false,
     errorMessage: null,
     chats: [],
     user: null,
-    auth: {
-        token: '',
-        user: {
-            firstName: '',
-            lastName: '',
-            fullName: '',
-            email: '',
-            uid: '',
-            createdAt: '',
-        }
-    }
+    auth: authOriginalState
 };
 
 const actionModel: ActionsModel = {
@@ -35,7 +35,8 @@ const actionModel: ActionsModel = {
         state.isLoading = !state.isLoading;
     }),
     clearUser: action((state) => {
-        state.user = null;
+        state.auth = authOriginalState;
+        AsyncStorageHandler.remove('userAuthData');
     }),
     setErrorMessage: action((state, payload) => {
         state.errorMessage = payload;
@@ -54,8 +55,9 @@ const actionModel: ActionsModel = {
             const result = await firebaseUtils.signInWithEmailAndPassword(email, password);
             const { uid } = result.user;
             const user = await firebaseUtils.getUserData(uid);
-            actions.setUser(user);
-            console.log('logged in user:', user);
+            if (user) {
+                actions.setUser(user);
+            }
 
         } catch (error: any) {
             console.log(error.code);
@@ -64,8 +66,9 @@ const actionModel: ActionsModel = {
     ),
     logout: thunk(async (actions) => {
         try {
-            await firebaseUtils.signOut();
+            // await firebaseUtils.signOut(); explore this
             actions.clearUser();
+            await AsyncStorageHandler.remove('userAuthData');
         }
         catch (error: unknown) {
             if (error instanceof FirebaseError) {
@@ -79,17 +82,14 @@ const actionModel: ActionsModel = {
         actions.toggleLoading();
         try {
             const result = await firebaseUtils.createUserWithEmailAndPassword(email, password);
-            console.log('result:', result.user.stsTokenManager);
-            
+
             const { uid, stsTokenManager } = result.user;
             const { accessToken, expirationTime } = stsTokenManager;
             const expiryDate = new Date(expirationTime * 1000);
             const user = await firebaseUtils.createUserData(uid, firstName, lastName, email);
-            actions.setAuth({token: accessToken, user});
-            
-            localStorage.set('token',{accessToken,  uid, expiryDate});
-            // actions.setUser(user);
-            // console.log('registered user:', user);
+            actions.setAuth({ token: accessToken, user });
+            const data = { accessToken, uid, expiryDate };
+            await AsyncStorageHandler.set('userAuthData', data);
             actions.toggleLoading();
         } catch (error: unknown) {
             if (error instanceof FirebaseError) {

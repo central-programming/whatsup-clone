@@ -2,7 +2,7 @@ import { getDatabase, ref, set, child, get } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { FirebaseApp } from '@firebase/app';
 import firebaseApp from "./firebase-config";
-import { UserCredentials } from "../types/user";
+import { UserCredentials, UserAuthData, Auth, User } from "../types/user";
 
 
 
@@ -11,8 +11,8 @@ class FirebaseUtils {
     app: FirebaseApp;
     constructor() {
         this.app = firebaseApp();
-    }
-    getUserData = async (uid: string) => {
+    }// add 
+    getUserData = async (uid: string): Promise<User | null> => {
         const dbRef = ref(getDatabase());
         const snapshot = await get(child(dbRef, `users/${uid}`));
         if (snapshot.exists()) {

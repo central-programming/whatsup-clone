@@ -8,6 +8,11 @@ export interface User {
     createdAt: string;
 }
 
-export interface UserCredentials { user: { uid: string, stsTokenManager:{accessToken: string, expirationTime: number, refreshToken: string} } };
+export interface UserCredentials { user: { uid: string, stsTokenManager: { accessToken: string, expirationTime: number, refreshToken: string } } };
 
-export interface UserAuthData {accessToken:string,uid:string,expiryDate:Date};
+export interface UserAuthData { accessToken: string, uid: string, expiryDate: Date };
+
+export interface Auth {
+    token: string,
+    user: User
+}

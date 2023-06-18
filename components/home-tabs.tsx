@@ -3,6 +3,7 @@ import HomeScreen from "../screens/home";
 import SettingsScreen from "../screens/settings";
 import { RootTabParamList } from "../types/navigator";
 import { Ionicons } from '@expo/vector-icons'; 
+
 const Tab = createBottomTabNavigator<RootTabParamList>();
 export default function HomeTabs () {
     return (
