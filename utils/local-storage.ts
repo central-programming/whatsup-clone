@@ -1,37 +1,37 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserAuthData } from '../types/user';
 
-const localStorage = {
-    set: async (key: string,data:UserAuthData) => {
-        try {
-            await AsyncStorage.setItem(key, JSON.stringify(data));
-        } catch (e) {
-            console.log(e);
-        }
-    },
-    get: async (key: string) => {
-        try {
-            const value = await AsyncStorage.getItem(key);
-            if (value !== null) {
-                return JSON.parse(value) as UserAuthData;
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    },
-    remove: async (key: string) => {
-        try {
-            await AsyncStorage.removeItem(key);
-        } catch (e) {
-            console.log(e);
-        }
+
+type LocalStorageKeys = 'userAuthData';
+
+export class AsyncStorageHandler {
+  static async set(key:LocalStorageKeys, value:UserAuthData) {
+    try {
+      await AsyncStorage.setItem(key, JSON.stringify({
+        accessToken: value.accessToken,
+        uid: value.uid,
+        expiryDate: value.expiryDate.toISOString()
+      }));
+    } catch (error) {
+      console.log('Error storing data:', error);
     }
-};
+  }
 
-export default localStorage;
+  static async get(key:LocalStorageKeys):Promise<UserAuthData | null> {
+    try {
+      const value = await AsyncStorage.getItem(key);
+      return value ? JSON.parse(value) : null;
+    } catch (error) {
+      console.log('Error retrieving data:', error);
+      return null;
+    }
+  }
 
-
-//keys
-interface LocalStorageKeys {
-    userAuthData: string;
+  static async remove(key:LocalStorageKeys) {
+    try {
+      await AsyncStorage.removeItem(key);
+    } catch (error) {
+      console.log('Error removing data:', error);
+    }
+  }
 }

@@ -1,30 +1,17 @@
 import { Action, Thunk } from 'easy-peasy';
-import { User } from './user';
+import { Auth, User } from './user';
 
 export interface StateModel {
     isLoading: boolean;
     errorMessage: string | null;
     chats: any[];
-    auth: {
-        token: string;
-        user: User
-    }
+    auth: Auth;
     user: User | null;
 }
 
 export interface ActionsModel {
-    setAuth: Action<StateModel, {
-        token: string;
-        user: User;
-    }>;
-    setUser: Action<StateModel, {
-      firstName: string;
-      lastName: string;
-      fullName: string;
-      email: string;
-      uid: string;
-        createdAt: string;
-    }>;
+    setAuth: Action<StateModel, Auth>;
+    setUser: Action<StateModel, User>;
     toggleLoading: Action<StateModel>;
     clearUser: Action<StateModel>;
     setErrorMessage: Action<StateModel, string | null>;
@@ -32,11 +19,11 @@ export interface ActionsModel {
     login: Thunk<ActionsModel, { email: string; password: string }>;
     logout: Thunk<ActionsModel>;
     register: Thunk<ActionsModel, {
-      firstName: string;
-      lastName: string;
-      email: string;
-      password: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        password: string;
     }>;
-  }
+}
 
-export interface StoreModel extends StateModel, ActionsModel {};
+export interface StoreModel extends StateModel, ActionsModel { };
