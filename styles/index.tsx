@@ -163,6 +163,24 @@ export const styles = StyleSheet.create({
         height: '100%',
         resizeMode: 'contain',
     },
+    pageContainer: {
+        flex: 1,
+        backgroundColor: colors.white,
+        paddingTop: 50,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+    },
+    pageTitleContainer: {
+        justifyContent: "center",
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        marginVertical: 5,
+    },
+    pageTitle: {
+        fontSize: 28,
+        fontFamily: 'bold',
+        color: colors.dark,
+    },
 
 });
 
