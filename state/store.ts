@@ -21,10 +21,21 @@ const stateModel: StateModel = {
     errorMessage: null,
     chats: [],
     user: null,
-    auth: authOriginalState
+    auth: authOriginalState,
+    settingsForm: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        bio: '',
+    },
 };
 
 const actionModel: ActionsModel = {
+    updateSettingsForm: action((state, payload) => {
+        state.settingsForm = { ...state.settingsForm, ...payload };
+    }),
     setUser: action((state, payload) => {
         state.user = payload;
     }),

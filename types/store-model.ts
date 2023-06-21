@@ -7,9 +7,25 @@ export interface StateModel {
     chats: any[];
     auth: Auth;
     user: User | null;
+    settingsForm: {
+        firstName: string;
+        lastName: string;
+        email: string;
+        password: string;
+        confirmPassword: string;
+        bio: string;
+    };
 }
 
 export interface ActionsModel {
+    updateSettingsForm: Action<StateModel, {
+        firstName?: string;
+        lastName?: string;
+        email?: string;
+        password?: string;
+        confirmPassword?: string;
+        bio?: string;
+    }>;
     setAuth: Action<StateModel, Auth>;
     setUser: Action<StateModel, User>;
     toggleLoading: Action<StateModel>;

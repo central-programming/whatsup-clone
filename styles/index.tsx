@@ -181,6 +181,11 @@ export const styles = StyleSheet.create({
         fontFamily: 'bold',
         color: colors.dark,
     },
+    thematicBreak: {
+        borderBottomWidth: 1,
+        borderBottomColor: colors.gray,
+        marginVertical: 10,
+    },
 
 });
 
