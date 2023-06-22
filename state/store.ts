@@ -1,9 +1,10 @@
-import { createStore, action, Action, Thunk, thunk } from 'easy-peasy';
+import { createStore, action, Action, Thunk, thunk, Computed, computed } from 'easy-peasy';
 import firebaseUtils from '../utils/firebase-utils';
 import { FirebaseError } from '@firebase/util';
 import { extractErrorDetails } from '../utils/strings';
 import { StoreModel, StateModel, ActionsModel } from '../types/store-model';
 import { AsyncStorageHandler } from '../utils/local-storage';
+import InputValidator from '../utils/input-validator';
 
 const authOriginalState = {
     token: '',
@@ -30,6 +31,17 @@ const stateModel: StateModel = {
         confirmPassword: '',
         bio: '',
     },
+    hasSettingFormChanged: computed(
+        (state) => {
+            const { email } = state.auth.user;
+            const { email: emailForm } = state.settingsForm;
+            const isEmailFormValid = InputValidator.validateEmail(emailForm);
+            const hasChanged = Boolean(emailForm && email !== emailForm && isEmailFormValid);
+
+
+            return hasChanged;
+        }
+      ),
 };
 
 const actionModel: ActionsModel = {

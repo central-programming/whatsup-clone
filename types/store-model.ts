@@ -1,4 +1,4 @@
-import { Action, Thunk } from 'easy-peasy';
+import { Action, Computed, Thunk } from 'easy-peasy';
 import { Auth, User } from './user';
 
 export interface StateModel {
@@ -15,6 +15,7 @@ export interface StateModel {
         confirmPassword: string;
         bio: string;
     };
+    hasSettingFormChanged: Computed<StateModel, boolean>;
 }
 
 export interface ActionsModel {
