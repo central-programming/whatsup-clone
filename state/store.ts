@@ -33,13 +33,14 @@ const stateModel: StateModel = {
     },
     hasSettingFormChanged: computed(
         (state) => {
-            const { email } = state.auth.user;
-            const { email: emailForm } = state.settingsForm;
-            const isEmailFormValid = InputValidator.validateEmail(emailForm);
-            const hasChanged = Boolean(emailForm && email !== emailForm && isEmailFormValid);
+            const { email, firstName, lastName } = state.auth.user;
+            const { email: emailForm, firstName:firstNameForm, lastName:lastNameForm } = state.settingsForm;
+            const isEmailInputValid = InputValidator.validateEmail(emailForm);
+             const hasFirstNameChanged = Boolean(firstNameForm && firstName !== firstNameForm) && firstNameForm.length > 0;
+            const hasLastNameChanged = Boolean(lastNameForm && lastName !== lastNameForm) && lastNameForm.length > 0;
+            const hasEmailChanged = Boolean(emailForm && email !== emailForm && isEmailInputValid);
 
-
-            return hasChanged;
+            return hasEmailChanged && hasFirstNameChanged && hasLastNameChanged;
         }
       ),
 };
@@ -48,6 +49,30 @@ const actionModel: ActionsModel = {
     updateSettingsForm: action((state, payload) => {
         state.settingsForm = { ...state.settingsForm, ...payload };
     }),
+    updateSignedInAuthUserData: action((state, payload) => {
+        state.auth.user = { ...state.auth.user, ...payload };
+
+    }),
+    updateSignedInAuthUserDataAsync: thunk(async (actions, payload) => {
+        const { firstName, lastName, fullName, email, uuid } = payload;
+        try {
+            await firebaseUtils.updateUserData(uuid,payload);
+        actions.updateSignedInAuthUserData({
+            firstName,
+            lastName,
+            fullName,
+            email,
+        });
+        
+        } catch (error: unknown) {
+            if (error instanceof FirebaseError) {
+                const errorMessage = extractErrorDetails(error.message);
+                actions.updateErrorMessage(errorMessage);
+            }
+        }
+        
+       }),
+    
     setUser: action((state, payload) => {
         state.user = payload;
     }),

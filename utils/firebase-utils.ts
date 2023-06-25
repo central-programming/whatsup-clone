@@ -1,4 +1,4 @@
-import { getDatabase, ref, set, child, get } from "firebase/database";
+import { getDatabase, ref, set, child, get, update } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { FirebaseApp } from '@firebase/app';
 import firebaseApp from "./firebase-config";
@@ -20,6 +20,13 @@ class FirebaseUtils {
         } else {
             return null;
         }
+    }
+
+    updateUserData = async (uid: string, userData: Partial<User>) => {
+        const dbRef = ref(getDatabase());
+        // await set(child(dbRef, `users/${uid}`), userData);
+        const updatedUserVal = await update(child(dbRef, `users/${uid}`), userData);
+        
     }
 
     signOut = async () => {
