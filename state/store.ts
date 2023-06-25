@@ -1,9 +1,10 @@
-import { createStore, action, Action, Thunk, thunk } from 'easy-peasy';
+import { createStore, action, Action, Thunk, thunk, Computed, computed } from 'easy-peasy';
 import firebaseUtils from '../utils/firebase-utils';
 import { FirebaseError } from '@firebase/util';
 import { extractErrorDetails } from '../utils/strings';
 import { StoreModel, StateModel, ActionsModel } from '../types/store-model';
 import { AsyncStorageHandler } from '../utils/local-storage';
+import InputValidator from '../utils/input-validator';
 
 const authOriginalState = {
     token: '',
@@ -21,10 +22,57 @@ const stateModel: StateModel = {
     errorMessage: null,
     chats: [],
     user: null,
-    auth: authOriginalState
+    auth: authOriginalState,
+    settingsForm: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        bio: '',
+    },
+    hasSettingFormChanged: computed(
+        (state) => {
+            const { email, firstName, lastName } = state.auth.user;
+            const { email: emailForm, firstName:firstNameForm, lastName:lastNameForm } = state.settingsForm;
+            const isEmailInputValid = InputValidator.validateEmail(emailForm);
+             const hasFirstNameChanged = Boolean(firstNameForm && firstName !== firstNameForm) && firstNameForm.length > 0;
+            const hasLastNameChanged = Boolean(lastNameForm && lastName !== lastNameForm) && lastNameForm.length > 0;
+            const hasEmailChanged = Boolean(emailForm && email !== emailForm && isEmailInputValid);
+
+            return hasEmailChanged && hasFirstNameChanged && hasLastNameChanged;
+        }
+      ),
 };
 
 const actionModel: ActionsModel = {
+    updateSettingsForm: action((state, payload) => {
+        state.settingsForm = { ...state.settingsForm, ...payload };
+    }),
+    updateSignedInAuthUserData: action((state, payload) => {
+        state.auth.user = { ...state.auth.user, ...payload };
+
+    }),
+    updateSignedInAuthUserDataAsync: thunk(async (actions, payload) => {
+        const { firstName, lastName, fullName, email, uuid } = payload;
+        try {
+            await firebaseUtils.updateUserData(uuid,payload);
+        actions.updateSignedInAuthUserData({
+            firstName,
+            lastName,
+            fullName,
+            email,
+        });
+        
+        } catch (error: unknown) {
+            if (error instanceof FirebaseError) {
+                const errorMessage = extractErrorDetails(error.message);
+                actions.updateErrorMessage(errorMessage);
+            }
+        }
+        
+       }),
+    
     setUser: action((state, payload) => {
         state.user = payload;
     }),

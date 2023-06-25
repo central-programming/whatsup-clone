@@ -16,6 +16,7 @@ export default function HomeTabs () {
             <Tab.Screen name="Settings" component={SettingsScreen}
                 options={{
                     tabBarIcon: ({ color, size }) => (<Ionicons name="settings-outline" size={size} color={color} />),
+                    headerShown: false,
                 }}
              />
         </Tab.Navigator>
