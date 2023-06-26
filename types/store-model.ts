@@ -30,7 +30,7 @@ export interface ActionsModel {
         lastName: string;
         fullName: string;
         email: string;
-        uuid: string;
+        uid: string;
     }>;
     updateSettingsForm: Action<StateModel, {
         firstName?: string;

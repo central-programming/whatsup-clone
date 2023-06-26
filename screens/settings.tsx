@@ -17,7 +17,7 @@ export default function SettingsScreen() {
             lastName: settingsForm.lastName,
             email: settingsForm.email,
             fullName: `${settingsForm.firstName} ${settingsForm.lastName}`,
-            uuid: auth.user.uid,
+            uid: auth.user.uid,
         }
         updateSignedInAuthUserDataAsync(payload);
     }

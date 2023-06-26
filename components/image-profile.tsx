@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useStoreActions, useStoreState } from '../state/hooks';
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { styles } from '../styles';
@@ -10,7 +11,10 @@ interface ImageProfileProps {
 }
 
 const ImageProfile: React.FC<ImageProfileProps> = ({ name, description }) => {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const {updateSignedInAuthUserDataAsync} = useStoreActions((actions) => actions);
+  const { auth } = useStoreState((state) => state);
+  const [imageUrl] = useState<string | null | undefined >(auth.user.imageUrl || null);
+  
 
 
 const handleImageUpload = async () => {
@@ -22,8 +26,14 @@ const handleImageUpload = async () => {
       });
 
       if (!result.canceled) {
-        setImageUrl(result.assets[0].uri);
         const uploadResult = await firebaseUtils.uploadImageAsync(result.assets[0].uri);
+        const payload = {
+          ...auth.user,
+          imageUrl: uploadResult,
+        }
+        updateSignedInAuthUserDataAsync(payload);
+
+        
       }
       
 };

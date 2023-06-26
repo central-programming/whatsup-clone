@@ -45,6 +45,8 @@ class FirebaseUtils {
     signInWithEmailAndPassword = async (email: string, password: string) => {
         const auth = getAuth(this.app);
         const result = await signInWithEmailAndPassword(auth, email, password);
+        console.log('result', result);
+        
         return result as unknown as UserCredentials;
     }
 
