@@ -186,6 +186,33 @@ export const styles = StyleSheet.create({
         borderBottomColor: colors.gray,
         marginVertical: 10,
     },
+    // image profile container
+    imageProfileContainer: {
+        alignItems: 'center',
+        marginVertical: 10,
+      },
+      image: {
+        width: 100,
+        height: 100,
+        borderRadius: 75,
+        marginBottom: 10,
+      },
+      placeholder: {
+        width: 100,
+        height: 100,
+        borderRadius: 75,
+        backgroundColor: '#ccc',
+        marginBottom: 10,
+      },
+      name: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 5,
+      },
+      description: {
+        fontSize: 14,
+        color: '#666',
+      },
 
 });
 

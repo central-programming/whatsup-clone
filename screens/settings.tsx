@@ -1,11 +1,12 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, ScrollView } from "react-native";
 import { useStoreActions, useStoreState, useStoreDispatch } from '../state/hooks';
 import PageTitle from "../components/page-title";
 import PageContainer from "../components/page-container";
 import ThematicBreak from "../components/thematic-break";
 import { Input } from "../components/input";
 import SubmitButton from "../components/submit-button";
+import ImageProfile from "../components/image-profile";
 
 export default function SettingsScreen() {
     const {logout, updateSettingsForm, updateSignedInAuthUserDataAsync} = useStoreActions((actions) => actions);
@@ -23,6 +24,9 @@ export default function SettingsScreen() {
     return (
         <PageContainer>
             <PageTitle title="Settings" textAlignment="flex-start" />
+            <ScrollView>
+            <ThematicBreak />
+            <ImageProfile name={auth.user.fullName} description="Software Engineer" />
             <ThematicBreak />
             <View>
                 <Input inputMode="none" icon="person" color="white" placeholder={auth.user.firstName} initialValue={auth.user.firstName}  onChangeText={(value) => updateSettingsForm({ firstName: value })} />
@@ -39,6 +43,7 @@ export default function SettingsScreen() {
             <Button title="Logout" onPress={() => {
                 logout();
             }} />
+            </ScrollView>
         </PageContainer>
     );
 }
