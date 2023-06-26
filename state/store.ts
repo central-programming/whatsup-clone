@@ -6,7 +6,20 @@ import { StoreModel, StateModel, ActionsModel } from '../types/store-model';
 import { AsyncStorageHandler } from '../utils/local-storage';
 import InputValidator from '../utils/input-validator';
 
-const authOriginalState = {
+interface AuthData {
+    token: string;
+    user: {
+    firstName: string;
+    lastName: string;
+    fullName: string;
+    email: string;
+    uid: string;
+    createdAt: string;
+    imageUrl?: string;
+    }
+}
+
+const authOriginalState: AuthData = {
     token: '',
     user: {
         firstName: '',
@@ -15,6 +28,7 @@ const authOriginalState = {
         email: '',
         uid: '',
         createdAt: '',
+        imageUrl: '',
     }
 };
 const stateModel: StateModel = {
@@ -54,9 +68,9 @@ const actionModel: ActionsModel = {
 
     }),
     updateSignedInAuthUserDataAsync: thunk(async (actions, payload) => {
-        const { firstName, lastName, fullName, email, uuid } = payload;
+        const { firstName, lastName, fullName, email, uid } = payload;
         try {
-            await firebaseUtils.updateUserData(uuid,payload);
+            await firebaseUtils.updateUserData(uid,payload);
         actions.updateSignedInAuthUserData({
             firstName,
             lastName,

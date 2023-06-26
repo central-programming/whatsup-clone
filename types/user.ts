@@ -6,6 +6,7 @@ export interface User {
     email: string;
     uid: string;
     createdAt: string;
+    imageUrl?: string;
 }
 
 export interface UserCredentials { user: { uid: string, stsTokenManager: { accessToken: string, expirationTime: number, refreshToken: string } } };
