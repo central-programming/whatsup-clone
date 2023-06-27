@@ -3,7 +3,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import { getStorage, ref as strgRef, uploadBytes, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { FirebaseApp } from '@firebase/app';
 import firebaseApp from "./firebase-config";
-import { UserCredentials, UserAuthData, Auth, User } from "../types/user";
+import { FirebaseUserCredentials, UserAuthData, Auth, User } from "../types/user";
 import uuid from 'react-native-uuid';
 
 
@@ -27,7 +27,10 @@ class FirebaseUtils {
     updateUserData = async (uid: string, userData: Partial<User>) => {
         const dbRef = ref(getDatabase());
         // await set(child(dbRef, `users/${uid}`), userData);
-        const updatedUserVal = await update(child(dbRef, `users/${uid}`), userData);
+        await update(child(dbRef, `users/${uid}`), userData);
+        const userSnapshot = await get(child(dbRef, `users/${uid}`));
+        const updatedUserVal = userSnapshot.val();
+        return updatedUserVal;
 
     }
 
@@ -39,78 +42,50 @@ class FirebaseUtils {
     createUserWithEmailAndPassword = async (email: string, password: string) => {
         const auth = getAuth(this.app);
         const result = await createUserWithEmailAndPassword(auth, email, password);
-        return result as unknown as UserCredentials;
+        return result as unknown as FirebaseUserCredentials;
     }
 
     signInWithEmailAndPassword = async (email: string, password: string) => {
         const auth = getAuth(this.app);
         const result = await signInWithEmailAndPassword(auth, email, password);
-        console.log('result', result);
-        
-        return result as unknown as UserCredentials;
+
+        return result as unknown as FirebaseUserCredentials;
     }
 
     createUserData = async (uid: string, firstName: string, lastName: string, email: string) => {
         const fullName = `${firstName} ${lastName}`.toLocaleLowerCase();
-        const userData = {
+        const userData: User = {
             firstName,
             lastName,
             fullName,
             email,
             uid,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
         }
         const dbRef = ref(getDatabase());
         await set(child(dbRef, `users/${uid}`), userData);
         return userData;
     }
 
-  /*   uploadImageAsync = async (uri: string) => {
+    uploadImageAsync = async (uri: string) => {
         try {
-            const blob = new Promise((resolve, reject) => { // blob is a file-like object that contains raw data
-                const xhr = new XMLHttpRequest();
-                xhr.onload = function () {
-                    resolve(xhr.response)
-                }
-                xhr.onerror = function (e) {
-                    console.log(e);
-    
-                    reject(new TypeError('Network Reques failed'))
-                }
-                xhr.responseType = 'blob'
-                xhr.open('GET', uri, true)
-                xhr.send(null)
-    
-            });
+            const storage = getStorage(this.app);
+            const auth = getAuth(this.app);
+
+            const response = await fetch(uri);
+            const blob = await response.blob();
+
             const pathFolder = 'profilePictures';
-            const storageRef = strgRef(getStorage(this.app), `${pathFolder}/${uuid.v4()}`);
-            await uploadBytesResumable(storageRef, blob as unknown as Blob);
-            return await getDownloadURL(storageRef);
+            const storageRef = strgRef(storage, `${pathFolder}/${uuid.v4()}`);
+            await uploadBytesResumable(storageRef, blob);
+            const downloadURL = await getDownloadURL(storageRef);
+
+            return downloadURL;
         } catch (error) {
             console.log(error);
             return null;
-            
         }
-    } */
-    uploadImageAsync = async (uri: string) => {
-        try {
-          const storage = getStorage(this.app);
-          const auth = getAuth(this.app);
-    
-          const response = await fetch(uri);
-          const blob = await response.blob();
-          
-          const pathFolder = 'profilePictures';
-          const storageRef = strgRef(storage, `${pathFolder}/${uuid.v4()}`);
-          await uploadBytesResumable(storageRef, blob);
-          const downloadURL = await getDownloadURL(storageRef);
-    
-          return downloadURL;
-        } catch (error) {
-          console.log(error);
-          return null;
-        }
-      }
+    }
 }
 
 const firebaseUtils = new FirebaseUtils();

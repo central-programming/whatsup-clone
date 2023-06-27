@@ -25,13 +25,7 @@ export interface ActionsModel {
         fullName: string;
         email: string;
     }>;
-    updateSignedInAuthUserDataAsync: Thunk<ActionsModel, {
-        firstName: string;
-        lastName: string;
-        fullName: string;
-        email: string;
-        uid: string;
-    }>;
+    updateSignedInAuthUserDataAsync: Thunk<ActionsModel, User>;
     updateSettingsForm: Action<StateModel, {
         firstName?: string;
         lastName?: string;
