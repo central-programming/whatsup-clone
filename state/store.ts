@@ -68,15 +68,10 @@ const actionModel: ActionsModel = {
 
     }),
     updateSignedInAuthUserDataAsync: thunk(async (actions, payload) => {
-        const { firstName, lastName, fullName, email, uid } = payload;
         try {
-            await firebaseUtils.updateUserData(uid,payload);
-        actions.updateSignedInAuthUserData({
-            firstName,
-            lastName,
-            fullName,
-            email,
-        });
+            const result = await firebaseUtils.updateUserData(payload.uid,payload);
+            
+        actions.updateSignedInAuthUserData(result);
         
         } catch (error: unknown) {
             if (error instanceof FirebaseError) {
