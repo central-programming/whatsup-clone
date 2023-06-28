@@ -13,12 +13,19 @@ export default function MainNavigation() {
             animationEnabled: true,
             animationTypeForReplace: "push",
         }} >
-        <Stack.Screen name="Home" component={HomeTabs} options={{
-            headerShown: false,
-        }} />
+        <Stack.Screen
+
+            options={{
+                headerShown: false, // Hide the header
+            }}
+        
+        name="Home" component={HomeTabs} 
+        
+        />
         <Stack.Screen name="Chat" component={ChatScreen} options={{
             headerBackTitle: "Back",
         }} />
     </Stack.Navigator>
     )
 }
+

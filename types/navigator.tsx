@@ -18,12 +18,12 @@ export type RootStackParamList = {
   };
 
   export type RootTabParamList = {
-    HomeTabs: undefined;
+    ChatList: undefined;
     Settings: undefined;
     };
 
 
-  type HomeScreenTabNavigationProp = BottomTabNavigationProp<RootTabParamList, "HomeTabs">;
+  type HomeScreenTabNavigationProp = BottomTabNavigationProp<RootTabParamList, "ChatList">;
     type SettingsScreenTabNavigationProp = BottomTabNavigationProp<RootTabParamList, "Settings">;
 
     export type HomeScreenTabProps = {
