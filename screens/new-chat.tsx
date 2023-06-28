@@ -4,25 +4,26 @@ import { HomeScreenProps } from "../types/navigator";
 import ChatListHeaderRight from "../components/chat-list-header-right";
 import { colors, styles } from "../styles/index";
 
-export default function ChatListScreen({ navigation }: HomeScreenProps) {
+export default function NewChatScreen({ navigation }: HomeScreenProps) {
     useEffect(() => {
         navigation.setOptions({
-            headerRight: () => (
-                <ChatListHeaderRight title="Create new chat" iconName="create-outline" color={colors.primary} handlePress={handlePress} />
+            headerLeft: () => (
+                <ChatListHeaderRight title="Close" iconName="close" color={colors.primary} handlePress={handlePress} />
             ),
+            headerTitle: "New Chat",
         });
     }, []);
 
     const handlePress = () => {
-        navigation.navigate("NewChat");
+        navigation.goBack();
     };
         
 
 
     return (
         <View style={[styles.flex1, styles.xCenter, styles.yCenter]}>
-            <Text>Home Screen</Text>
-            <Button title="Go to Chat" onPress={() => navigation.navigate("Chat")} />
+            <Text>New Chat</Text>
+            {/* <Button title="Go to Chat" onPress={() => navigation.navigate("Chat")} /> */}
         </View>
     );
 }
