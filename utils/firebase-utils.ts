@@ -1,4 +1,5 @@
-import { getDatabase, ref, set, child, get, update } from "firebase/database";
+import { getDatabase, ref, onValue, set, child, get, update, orderByChild, endAt, startAt, query } from "firebase/database";
+// import { collection,  where, doc, onSnapshot, setDoc, deleteDoc, serverTimestamp, orderBy, limit, DocumentData, getFirestore } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getStorage, ref as strgRef, uploadBytes, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { FirebaseApp } from '@firebase/app';
@@ -86,6 +87,33 @@ class FirebaseUtils {
             return null;
         }
     }
+
+    searchUsersAsync = async (queryText: string) => {
+        try {
+          const searchQuery = queryText.toLowerCase();
+          const dbRef = ref(getDatabase());
+          const userRef = child(dbRef, 'users');
+          const queryRef = query(userRef, orderByChild('fullName'));
+      
+          const snapshot = await get(queryRef);
+      
+          if (snapshot.exists()) {
+            const users = snapshot.val() as User[];
+            
+            const usersArray = Object.values(users);
+            const matchingUsers = usersArray.filter((user: User) =>
+              user.fullName.toLowerCase().includes(searchQuery)
+            );  
+            return matchingUsers as unknown as User[];
+          }
+      
+          return [];
+        } catch (error) {
+          console.log(error);
+          return [];
+        }
+      };
+      
 }
 
 const firebaseUtils = new FirebaseUtils();

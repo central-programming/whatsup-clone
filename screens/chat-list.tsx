@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Button, Alert } from "react-native";
 import { HomeScreenProps } from "../types/navigator";
 import ChatListHeaderRight from "../components/chat-list-header-right";
 import { colors, styles } from "../styles/index";
+import { User } from "../types/user";
 
 export default function ChatListScreen({ navigation }: HomeScreenProps) {
+    
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
