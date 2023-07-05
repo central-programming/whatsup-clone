@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 
-const colors = {
+export const colors = {
     primary: '#3498db',
     secondary: '#2ecc71',
     alert: '#e74c3c',
@@ -125,7 +125,7 @@ export const styles = StyleSheet.create({
         marginVertical: 5,
     },
     inputLabel:{
-        backgroundColor: colors.gray,
+        // backgroundColor: colors.gray,
         paddingHorizontal: 10,
         paddingVertical: 10,
         borderTopLeftRadius: 5,
@@ -162,6 +162,13 @@ export const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         resizeMode: 'contain',
+    },
+    pageTableContainer: {
+        flex: 1,
+        backgroundColor: colors.white,
+        paddingTop: 10,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
     },
     pageContainer: {
         flex: 1,

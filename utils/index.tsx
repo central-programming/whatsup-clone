@@ -31,7 +31,7 @@ export class ChatUI {
 }
 
 
-export function selectedIcon(icon: string, color: string) {
+export function selectedIcon(icon: string | undefined, color: string) {
     switch (icon) {
         case "person":
             return <Ionicons name="person" size={24} color={color} />

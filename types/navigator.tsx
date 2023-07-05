@@ -4,10 +4,12 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 export type RootStackParamList = {
     Home: undefined;
     Chat: undefined;
+    NewChat: undefined;
   };
   
   type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
   type ChatScreenNavigationProp = StackNavigationProp<RootStackParamList, "Chat">;
+  type NewChatScreenNavigationProp = StackNavigationProp<RootStackParamList, "NewChat">;
   
   export type HomeScreenProps = {
     navigation: HomeScreenNavigationProp;
@@ -17,13 +19,17 @@ export type RootStackParamList = {
     navigation: ChatScreenNavigationProp;
   };
 
+  export type NewChatScreenProps = {
+    navigation: NewChatScreenNavigationProp;
+  };
+
   export type RootTabParamList = {
-    HomeTabs: undefined;
+    ChatList: undefined;
     Settings: undefined;
     };
 
 
-  type HomeScreenTabNavigationProp = BottomTabNavigationProp<RootTabParamList, "HomeTabs">;
+  type HomeScreenTabNavigationProp = BottomTabNavigationProp<RootTabParamList, "ChatList">;
     type SettingsScreenTabNavigationProp = BottomTabNavigationProp<RootTabParamList, "Settings">;
 
     export type HomeScreenTabProps = {

@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from "../screens/home";
+import ChatListScreen from "../screens/chat-list";
 import SettingsScreen from "../screens/settings";
 import { RootTabParamList } from "../types/navigator";
 import { Ionicons } from '@expo/vector-icons'; 
@@ -7,9 +7,16 @@ import { Ionicons } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator<RootTabParamList>();
 export default function HomeTabs () {
     return (
-        <Tab.Navigator>
-            <Tab.Screen name="HomeTabs" component={HomeScreen} options={{
-                headerShown: false,
+        <Tab.Navigator 
+        screenOptions={{
+            headerShown: false, // Hide the header
+            
+          }}
+        >
+            <Tab.Screen name="ChatList" component={ChatListScreen} options={{
+                headerTitle: "Chats",
+                headerShadowVisible: false,
+                headerShown: true,
                 tabBarLabel: "Chats",
                 tabBarIcon: ({ color, size }) => (<Ionicons name="chatbubble-outline" size={size} color={color} /> ),
             }} />
