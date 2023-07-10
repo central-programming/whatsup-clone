@@ -220,6 +220,26 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         color: '#666',
       },
+      dataItemContainer: {
+        justifyContent: 'space-between',
+        marginVertical: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.gray,
+        paddingBottom:10
+      },
+      dataItemImage: {
+        width: 40,
+        height: 40,
+        borderRadius: 50,
+        borderWidth: 2,
+        borderColor: colors.gray
+      },
+      dataItemTitle: {
+        fontSize: 18,
+        fontFamily: 'bold',
+        color: colors.dark,
+        marginLeft: 12
+      }
 
 });
 
